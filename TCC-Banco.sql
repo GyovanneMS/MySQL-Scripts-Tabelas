@@ -86,14 +86,16 @@ create table tbl_Usuario(
     RG varchar(15) not null,
     Email varchar(270) not null,
     DataNascimento date not null,
-	Telefone varchar(15) not null,
-    DDD int not null,
-
     
 	id_Endereco int not null,
     constraint fk_endereco_usuario
 		foreign key(id_Endereco)
 		references tbl_Endereco(id),
+        
+	id_Telefone int not null,
+	constraint fk_telefone_usuario
+		foreign key(id_Telefone)
+		references tbl_Telefone(id),
         
 	unique index(id)
 
@@ -110,24 +112,18 @@ Create table tbl_Tutor(
     constraint fk_usuario_tutor
 		foreign key(id_Usuario)
 		references tbl_Usuario(id),
+        
+	id_Telefone int not null,
+	constraint fk_telefone_tutor
+		foreign key(id_Telefone)
+		references tbl_Telefone(id),	
 
 	unique index(id)	
 );
 
+
 # ---------> Veterinário
 
-create table tbl_CRMV(
-	id int not null auto_increment primary key,  	
-	Numero int not null,
-    
-	id_Estado int not null,
-    constraint  fk_estado_CRMV
-		foreign key(id_Estado)
-		references tbl_Estado(id),
-            
-    unique index(id)	
-);
-    
 create table tbl_Intituicao(
 	id int not null auto_increment primary key,  	
     Nome varchar(50),
@@ -152,11 +148,12 @@ create table tbl_Veterinario(
 	id int not null auto_increment primary key,  	
 	Biografia text,
     Avaliacao int,
+	CRMV int not null,
     
-	id_CRMV int not null,
-    constraint  fk_CRMV_veterinario
-		foreign key(id_CRMV)
-		references tbl_CRMV(id),
+	id_Uf_Estado int not null,
+	constraint fk_estado_CRMV_veterinario
+		foreign key (id_Uf_Estado)
+		references tbl_Estado (id),
         
 	id_Formacao int not null,
     constraint  fk_Formacao_veterinario
@@ -254,6 +251,7 @@ create table tbl_Sexo(
 create table tbl_Microship(
 	id int not null auto_increment primary key,  
     Resposta boolean,
+    NumeroMicroship int,
     
     unique index(id)	
 );
@@ -272,6 +270,8 @@ create table tbl_Especie(
     
     unique index(id)	
 );
+
+show tables;
 
 create table tbl_Raca(
 	id int not null auto_increment primary key,  
@@ -301,7 +301,7 @@ create table tbl_Nivel_Agressividade (
 
 create table tbl_Pet(
 	id int not null auto_increment primary key,  
-    Nome varchar(50),
+    Nome varchar(50) not null,
     DataNascimento date,
     Foto text,
     
@@ -435,6 +435,31 @@ create table tbl_Foto_Blog(
 		references tbl_Blog(id),
         
     unique index(id)	
+);
+
+# ----------- > Mensagens
+
+create table tbl_Mensagem_Chat(
+	id int not null auto_increment primary key,  	
+	Texto text not null,
+    DataLancamento datetime not null,
+    
+	id_Veterinario int not null,
+    constraint  fk_veterinario_Mensagem_Chat
+		foreign key(id_Veterinario)
+		references tbl_Veterinario(id),
+        
+	id_Tutor int not null,
+    constraint  fk_tutor_Mensagem_Chat
+		foreign key(id_Tutor)
+		references tbl_Tutor(id),
+        
+	id_Usuario int not null,
+    constraint  fk_usuario_Mensagem_Chat
+		foreign key(id_Usuario)
+		references tbl_Usuario(id),
+
+	unique index(id)
 );
 
 show tables
