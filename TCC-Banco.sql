@@ -234,24 +234,9 @@ create table tbl_Veterinario_Tags_Animal(
 
 # ---------> Pets
 
-create table tbl_Nivel_de_agrecividade(
-	id int not null auto_increment primary key,  
-    Nome varchar(15),
-    
-    unique index(id)	
-);
-
 create table tbl_Sexo(
 	id int not null auto_increment primary key,  
     Nome varchar(20),
-    
-    unique index(id)	
-);
-
-create table tbl_Microship(
-	id int not null auto_increment primary key,  
-    Resposta boolean,
-    NumeroMicroship int,
     
     unique index(id)	
 );
@@ -304,6 +289,9 @@ create table tbl_Pet(
     Nome varchar(50) not null,
     DataNascimento date,
     Foto text,
+    NumeroMicroship varchar(20), 
+    Peso double not null,
+	Altura float,
     
 	id_Sexo int not null,
     constraint  fk_Sexo_Pet
@@ -314,11 +302,6 @@ create table tbl_Pet(
     constraint  fk_Tamanho_Pet
 		foreign key(id_Tamanho)
 		references tbl_Tamanho(id),
-        
-	id_Microship int not null,
-    constraint  fk_Mricoship_Pet
-		foreign key(id_Microship)
-		references tbl_Microship(id),
 
 	id_Raca int not null,
     constraint  fk_Raca_Pet
